@@ -3,17 +3,12 @@ package com.yalantis.ucrop;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.StateListDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
-import android.support.annotation.IdRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -21,9 +16,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yalantis.ucrop.util.BitmapLoadUtils;
@@ -32,14 +24,10 @@ import com.yalantis.ucrop.view.GestureCropImageView;
 import com.yalantis.ucrop.view.OverlayView;
 import com.yalantis.ucrop.view.TransformImageView;
 import com.yalantis.ucrop.view.UCropView;
-import com.yalantis.ucrop.view.widget.AspectRatioTextView;
-import com.yalantis.ucrop.view.widget.HorizontalProgressWheelView;
 
 import java.io.OutputStream;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Oleksii Shliama (https://github.com/shliama).
@@ -68,9 +56,9 @@ public class UCropActivity extends AppCompatActivity {
 
     private GestureCropImageView mGestureCropImageView;
     private OverlayView mOverlayView;
-    private ViewGroup mWrapperStateAspectRatio, mWrapperStateRotate, mWrapperStateScale;
-    private ViewGroup mLayoutAspectRatio, mLayoutRotate, mLayoutScale;
-    private List<ViewGroup> mCropAspectRatioViews = new ArrayList<>();
+//    private ViewGroup mWrapperStateAspectRatio, mWrapperStateRotate, mWrapperStateScale;
+//    private ViewGroup mLayoutAspectRatio, mLayoutRotate, mLayoutScale;
+//    private List<ViewGroup> mCropAspectRatioViews = new ArrayList<>();
     private TextView mTextViewRotateAngle, mTextViewScalePercent;
 
     private Uri mOutputUri;
@@ -136,7 +124,7 @@ public class UCropActivity extends AppCompatActivity {
         }
 
         if (intent.getBooleanExtra(UCrop.EXTRA_ASPECT_RATIO_SET, false)) {
-            mWrapperStateAspectRatio.setVisibility(View.GONE);
+//            mWrapperStateAspectRatio.setVisibility(View.GONE);
 
             int aspectRatioX = intent.getIntExtra(UCrop.EXTRA_ASPECT_RATIO_X, 0);
             int aspectRatioY = intent.getIntExtra(UCrop.EXTRA_ASPECT_RATIO_Y, 0);
@@ -233,53 +221,53 @@ public class UCropActivity extends AppCompatActivity {
             }
         });
 
-        mWrapperStateAspectRatio = (ViewGroup) findViewById(R.id.state_aspect_ratio);
-        mWrapperStateAspectRatio.setOnClickListener(mStateClickListener);
-        mWrapperStateRotate = (ViewGroup) findViewById(R.id.state_rotate);
-        mWrapperStateRotate.setOnClickListener(mStateClickListener);
-        mWrapperStateScale = (ViewGroup) findViewById(R.id.state_scale);
-        mWrapperStateScale.setOnClickListener(mStateClickListener);
+//        mWrapperStateAspectRatio = (ViewGroup) findViewById(R.id.state_aspect_ratio);
+//        mWrapperStateAspectRatio.setOnClickListener(mStateClickListener);
+//        mWrapperStateRotate = (ViewGroup) findViewById(R.id.state_rotate);
+//        mWrapperStateRotate.setOnClickListener(mStateClickListener);
+//        mWrapperStateScale = (ViewGroup) findViewById(R.id.state_scale);
+//        mWrapperStateScale.setOnClickListener(mStateClickListener);
 
-        mLayoutAspectRatio = (ViewGroup) findViewById(R.id.layout_aspect_ratio);
-        mLayoutRotate = (ViewGroup) findViewById(R.id.layout_rotate_wheel);
-        mLayoutScale = (ViewGroup) findViewById(R.id.layout_scale_wheel);
+//        mLayoutAspectRatio = (ViewGroup) findViewById(R.id.layout_aspect_ratio);
+//        mLayoutRotate = (ViewGroup) findViewById(R.id.layout_rotate_wheel);
+//        mLayoutScale = (ViewGroup) findViewById(R.id.layout_scale_wheel);
 
-        setupAspectRatioWidget();
-        setupRotateWidget();
-        setupScaleWidget();
-        setupStatesWrapper();
+//        setupAspectRatioWidget();
+//        setupRotateWidget();
+//        setupScaleWidget();
+//        setupStatesWrapper();
     }
 
     /**
      * use {@link R.color#ucrop_color_widget_active} for color filter
      */
     private void setupStatesWrapper() {
-        ImageView stateScaleImageView = (ImageView) findViewById(R.id.image_view_state_scale);
-        ImageView stateRotateImageView = (ImageView) findViewById(R.id.image_view_state_rotate);
-        ImageView stateAspectRatioImageView = (ImageView) findViewById(R.id.image_view_state_aspect_ratio);
-
-        StateListDrawable stateScaleSelector = new StateListDrawable();
-        StateListDrawable stateRotateSelector = new StateListDrawable();
-        StateListDrawable stateAspectRatioSelector = new StateListDrawable();
-
-        Drawable stateScaleSelectedDrawable = ContextCompat.getDrawable(this, R.drawable.ucrop_ic_scale).mutate();
-        stateScaleSelectedDrawable.setColorFilter(ContextCompat.getColor(this, R.color.ucrop_color_widget_active), PorterDuff.Mode.SRC_ATOP);
-        stateScaleSelector.addState(new int[]{android.R.attr.state_selected}, stateScaleSelectedDrawable);
-        stateScaleSelector.addState(new int[0], ContextCompat.getDrawable(this, R.drawable.ucrop_ic_scale));
-
-        Drawable stateRotateSelectedDrawable = ContextCompat.getDrawable(this, R.drawable.ucrop_ic_rotate).mutate();
-        stateRotateSelectedDrawable.setColorFilter(ContextCompat.getColor(this, R.color.ucrop_color_widget_active), PorterDuff.Mode.SRC_ATOP);
-        stateRotateSelector.addState(new int[]{android.R.attr.state_selected}, stateRotateSelectedDrawable);
-        stateRotateSelector.addState(new int[0], ContextCompat.getDrawable(this, R.drawable.ucrop_ic_rotate));
-
-        Drawable stateAspectRatioSelectedDrawable = ContextCompat.getDrawable(this, R.drawable.ucrop_ic_crop).mutate();
-        stateAspectRatioSelectedDrawable.setColorFilter(ContextCompat.getColor(this, R.color.ucrop_color_widget_active), PorterDuff.Mode.SRC_ATOP);
-        stateAspectRatioSelector.addState(new int[]{android.R.attr.state_selected}, stateAspectRatioSelectedDrawable);
-        stateAspectRatioSelector.addState(new int[0], ContextCompat.getDrawable(this, R.drawable.ucrop_ic_crop));
-
-        stateScaleImageView.setImageDrawable(stateScaleSelector);
-        stateRotateImageView.setImageDrawable(stateRotateSelector);
-        stateAspectRatioImageView.setImageDrawable(stateAspectRatioSelector);
+//        ImageView stateScaleImageView = (ImageView) findViewById(R.id.image_view_state_scale);
+//        ImageView stateRotateImageView = (ImageView) findViewById(R.id.image_view_state_rotate);
+//        ImageView stateAspectRatioImageView = (ImageView) findViewById(R.id.image_view_state_aspect_ratio);
+//
+//        StateListDrawable stateScaleSelector = new StateListDrawable();
+//        StateListDrawable stateRotateSelector = new StateListDrawable();
+//        StateListDrawable stateAspectRatioSelector = new StateListDrawable();
+//
+//        Drawable stateScaleSelectedDrawable = ContextCompat.getDrawable(this, R.drawable.ucrop_ic_scale).mutate();
+//        stateScaleSelectedDrawable.setColorFilter(ContextCompat.getColor(this, R.color.ucrop_color_widget_active), PorterDuff.Mode.SRC_ATOP);
+//        stateScaleSelector.addState(new int[]{android.R.attr.state_selected}, stateScaleSelectedDrawable);
+//        stateScaleSelector.addState(new int[0], ContextCompat.getDrawable(this, R.drawable.ucrop_ic_scale));
+//
+//        Drawable stateRotateSelectedDrawable = ContextCompat.getDrawable(this, R.drawable.ucrop_ic_rotate).mutate();
+//        stateRotateSelectedDrawable.setColorFilter(ContextCompat.getColor(this, R.color.ucrop_color_widget_active), PorterDuff.Mode.SRC_ATOP);
+//        stateRotateSelector.addState(new int[]{android.R.attr.state_selected}, stateRotateSelectedDrawable);
+//        stateRotateSelector.addState(new int[0], ContextCompat.getDrawable(this, R.drawable.ucrop_ic_rotate));
+//
+//        Drawable stateAspectRatioSelectedDrawable = ContextCompat.getDrawable(this, R.drawable.ucrop_ic_crop).mutate();
+//        stateAspectRatioSelectedDrawable.setColorFilter(ContextCompat.getColor(this, R.color.ucrop_color_widget_active), PorterDuff.Mode.SRC_ATOP);
+//        stateAspectRatioSelector.addState(new int[]{android.R.attr.state_selected}, stateAspectRatioSelectedDrawable);
+//        stateAspectRatioSelector.addState(new int[0], ContextCompat.getDrawable(this, R.drawable.ucrop_ic_crop));
+//
+//        stateScaleImageView.setImageDrawable(stateScaleSelector);
+//        stateRotateImageView.setImageDrawable(stateRotateSelector);
+//        stateAspectRatioImageView.setImageDrawable(stateAspectRatioSelector);
     }
 
     /**
@@ -297,90 +285,90 @@ public class UCropActivity extends AppCompatActivity {
     }
 
     private void setupAspectRatioWidget() {
-        mCropAspectRatioViews.add((ViewGroup) findViewById(R.id.crop_aspect_ratio_1_1));
-        mCropAspectRatioViews.add((ViewGroup) findViewById(R.id.crop_aspect_ratio_3_4));
-        mCropAspectRatioViews.add((ViewGroup) findViewById(R.id.crop_aspect_ratio_original));
-        mCropAspectRatioViews.add((ViewGroup) findViewById(R.id.crop_aspect_ratio_3_2));
-        mCropAspectRatioViews.add((ViewGroup) findViewById(R.id.crop_aspect_ratio_16_9));
-        mCropAspectRatioViews.get(2).setSelected(true);
+//        mCropAspectRatioViews.add((ViewGroup) findViewById(R.id.crop_aspect_ratio_1_1));
+//        mCropAspectRatioViews.add((ViewGroup) findViewById(R.id.crop_aspect_ratio_3_4));
+//        mCropAspectRatioViews.add((ViewGroup) findViewById(R.id.crop_aspect_ratio_original));
+//        mCropAspectRatioViews.add((ViewGroup) findViewById(R.id.crop_aspect_ratio_3_2));
+//        mCropAspectRatioViews.add((ViewGroup) findViewById(R.id.crop_aspect_ratio_16_9));
+//        mCropAspectRatioViews.get(2).setSelected(true);
 
-        for (ViewGroup cropAspectRatioView : mCropAspectRatioViews) {
-            cropAspectRatioView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mGestureCropImageView.setTargetAspectRatio(
-                            ((AspectRatioTextView) ((ViewGroup) v).getChildAt(0)).getAspectRatio(v.isSelected()));
-                    mGestureCropImageView.setImageToWrapCropBounds();
-                    if (!v.isSelected()) {
-                        for (ViewGroup cropAspectRatioView : mCropAspectRatioViews) {
-                            cropAspectRatioView.setSelected(cropAspectRatioView == v);
-                        }
-                    }
-                }
-            });
-        }
+//        for (ViewGroup cropAspectRatioView : mCropAspectRatioViews) {
+//            cropAspectRatioView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    mGestureCropImageView.setTargetAspectRatio(
+//                            ((AspectRatioTextView) ((ViewGroup) v).getChildAt(0)).getAspectRatio(v.isSelected()));
+//                    mGestureCropImageView.setImageToWrapCropBounds();
+//                    if (!v.isSelected()) {
+//                        for (ViewGroup cropAspectRatioView : mCropAspectRatioViews) {
+//                            cropAspectRatioView.setSelected(cropAspectRatioView == v);
+//                        }
+//                    }
+//                }
+//            });
+//        }
     }
 
     private void setupRotateWidget() {
-        mTextViewRotateAngle = ((TextView) findViewById(R.id.text_view_rotate));
-        ((HorizontalProgressWheelView) findViewById(R.id.rotate_scroll_wheel))
-                .setScrollingListener(new HorizontalProgressWheelView.ScrollingListener() {
-                    @Override
-                    public void onScroll(float delta, float totalDistance) {
-                        mGestureCropImageView.postRotate(delta / ROTATE_WIDGET_SENSITIVITY_COEFFICIENT);
-                    }
-
-                    @Override
-                    public void onScrollEnd() {
-                        mGestureCropImageView.setImageToWrapCropBounds();
-                    }
-
-                    @Override
-                    public void onScrollStart() {
-                        mGestureCropImageView.cancelAllAnimations();
-                    }
-                });
-
-
-        findViewById(R.id.wrapper_reset_rotate).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                resetRotation();
-            }
-        });
-        findViewById(R.id.wrapper_rotate_by_angle).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                rotateByAngle(90);
-            }
-        });
+//        mTextViewRotateAngle = ((TextView) findViewById(R.id.text_view_rotate));
+//        ((HorizontalProgressWheelView) findViewById(R.id.rotate_scroll_wheel))
+//                .setScrollingListener(new HorizontalProgressWheelView.ScrollingListener() {
+//                    @Override
+//                    public void onScroll(float delta, float totalDistance) {
+//                        mGestureCropImageView.postRotate(delta / ROTATE_WIDGET_SENSITIVITY_COEFFICIENT);
+//                    }
+//
+//                    @Override
+//                    public void onScrollEnd() {
+//                        mGestureCropImageView.setImageToWrapCropBounds();
+//                    }
+//
+//                    @Override
+//                    public void onScrollStart() {
+//                        mGestureCropImageView.cancelAllAnimations();
+//                    }
+//                });
+//
+//
+//        findViewById(R.id.wrapper_reset_rotate).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                resetRotation();
+//            }
+//        });
+//        findViewById(R.id.wrapper_rotate_by_angle).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                rotateByAngle(90);
+//            }
+//        });
     }
 
     private void setupScaleWidget() {
-        mTextViewScalePercent = ((TextView) findViewById(R.id.text_view_scale));
-        ((HorizontalProgressWheelView) findViewById(R.id.scale_scroll_wheel))
-                .setScrollingListener(new HorizontalProgressWheelView.ScrollingListener() {
-                    @Override
-                    public void onScroll(float delta, float totalDistance) {
-                        if (delta > 0) {
-                            mGestureCropImageView.zoomInImage(mGestureCropImageView.getCurrentScale()
-                                    + delta * ((mGestureCropImageView.getMaxScale() - mGestureCropImageView.getMinScale()) / SCALE_WIDGET_SENSITIVITY_COEFFICIENT));
-                        } else {
-                            mGestureCropImageView.zoomOutImage(mGestureCropImageView.getCurrentScale()
-                                    + delta * ((mGestureCropImageView.getMaxScale() - mGestureCropImageView.getMinScale()) / SCALE_WIDGET_SENSITIVITY_COEFFICIENT));
-                        }
-                    }
-
-                    @Override
-                    public void onScrollEnd() {
-                        mGestureCropImageView.setImageToWrapCropBounds();
-                    }
-
-                    @Override
-                    public void onScrollStart() {
-                        mGestureCropImageView.cancelAllAnimations();
-                    }
-                });
+//        mTextViewScalePercent = ((TextView) findViewById(R.id.text_view_scale));
+//        ((HorizontalProgressWheelView) findViewById(R.id.scale_scroll_wheel))
+//                .setScrollingListener(new HorizontalProgressWheelView.ScrollingListener() {
+//                    @Override
+//                    public void onScroll(float delta, float totalDistance) {
+//                        if (delta > 0) {
+//                            mGestureCropImageView.zoomInImage(mGestureCropImageView.getCurrentScale()
+//                                    + delta * ((mGestureCropImageView.getMaxScale() - mGestureCropImageView.getMinScale()) / SCALE_WIDGET_SENSITIVITY_COEFFICIENT));
+//                        } else {
+//                            mGestureCropImageView.zoomOutImage(mGestureCropImageView.getCurrentScale()
+//                                    + delta * ((mGestureCropImageView.getMaxScale() - mGestureCropImageView.getMinScale()) / SCALE_WIDGET_SENSITIVITY_COEFFICIENT));
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onScrollEnd() {
+//                        mGestureCropImageView.setImageToWrapCropBounds();
+//                    }
+//
+//                    @Override
+//                    public void onScrollStart() {
+//                        mGestureCropImageView.cancelAllAnimations();
+//                    }
+//                });
     }
 
     private void setAngleText(float angle) {
@@ -405,35 +393,26 @@ public class UCropActivity extends AppCompatActivity {
         mGestureCropImageView.setImageToWrapCropBounds();
     }
 
-    private final View.OnClickListener mStateClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (!v.isSelected()) {
-                setWidgetState(v.getId());
-            }
-        }
-    };
-
     private void setInitialState() {
-        setWidgetState(R.id.state_scale);
+        setWidgetState();
     }
 
-    private void setWidgetState(@IdRes int stateViewId) {
-        mWrapperStateAspectRatio.setSelected(stateViewId == R.id.state_aspect_ratio);
-        mWrapperStateRotate.setSelected(stateViewId == R.id.state_rotate);
-        mWrapperStateScale.setSelected(stateViewId == R.id.state_scale);
+    private void setWidgetState() {
+//        mWrapperStateAspectRatio.setSelected(stateViewId == R.id.state_aspect_ratio);
+//        mWrapperStateRotate.setSelected(stateViewId == R.id.state_rotate);
+//        mWrapperStateScale.setSelected(stateViewId == R.id.state_scale);
 
-        mLayoutAspectRatio.setVisibility(stateViewId == R.id.state_aspect_ratio ? View.VISIBLE : View.GONE);
-        mLayoutRotate.setVisibility(stateViewId == R.id.state_rotate ? View.VISIBLE : View.GONE);
-        mLayoutScale.setVisibility(stateViewId == R.id.state_scale ? View.VISIBLE : View.GONE);
+//        mLayoutAspectRatio.setVisibility(stateViewId == R.id.state_aspect_ratio ? View.VISIBLE : View.GONE);
+//        mLayoutRotate.setVisibility(stateViewId == R.id.state_rotate ? View.VISIBLE : View.GONE);
+//        mLayoutScale.setVisibility(stateViewId == R.id.state_scale ? View.VISIBLE : View.GONE);
 
-        if (stateViewId == R.id.state_scale) {
+//        if (stateViewId == R.id.state_scale) {
             setAllowedGestures(0);
-        } else if (stateViewId == R.id.state_rotate) {
-            setAllowedGestures(1);
-        } else {
-            setAllowedGestures(2);
-        }
+//        } else if (stateViewId == R.id.state_rotate) {
+//            setAllowedGestures(1);
+//        } else {
+//            setAllowedGestures(2);
+//        }
     }
 
     private void setAllowedGestures(int tab) {
