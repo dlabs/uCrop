@@ -5,19 +5,19 @@ def sonatypeRepositoryUrl
 if (isReleaseBuild()) {
     println 'RELEASE BUILD'
     sonatypeRepositoryUrl = hasProperty('RELEASE_REPOSITORY_URL') ? RELEASE_REPOSITORY_URL
-            : "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+            : "http://repo.dlabs.si:8081/artifactory/simple/libs-release-local/"
 } else {
     println 'DEBUG BUILD'
     sonatypeRepositoryUrl = hasProperty('SNAPSHOT_REPOSITORY_URL') ? SNAPSHOT_REPOSITORY_URL
-            : "https://oss.sonatype.org/content/repositories/snapshots/"
+            : "http://repo.dlabs.si:8081/artifactory/simple/libs-snapshot-local/"
 }
 
 def getRepositoryUsername() {
-    return hasProperty('nexusUsername') ? nexusUsername : ""
+    return hasProperty('dArtifactoryUser') ? dArtifactoryUser : ""
 }
 
 def getRepositoryPassword() {
-    return hasProperty('nexusPassword') ? nexusPassword : ""
+    return hasProperty('dArtifactoryPass') ? dArtifactoryPass : ""
 }
 
 afterEvaluate { project ->
