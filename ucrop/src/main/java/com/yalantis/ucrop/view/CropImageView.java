@@ -135,6 +135,14 @@ public class CropImageView extends TransformImageView {
         int width = (int) (mCropRect.width() / currentScale);
         int height = (int) (mCropRect.height() / currentScale);
 
+        if (left + width > viewBitmap.getWidth()) {
+            width = viewBitmap.getWidth() - left;
+        }
+
+        if (top + height > viewBitmap.getHeight()) {
+            height = viewBitmap.getHeight() - top;
+        }
+
         return Bitmap.createBitmap(viewBitmap, left, top, width, height);
     }
 
