@@ -526,7 +526,8 @@ public class UCropActivity extends AppCompatActivity {
                 setWidgetState(R.id.state_scale);
             }
         } else {
-            setAllowedGestures(2);
+            mGestureCropImageView.setScaleEnabled(mAllowedGestures[0] == ALL || mAllowedGestures[0] == SCALE);
+            mGestureCropImageView.setRotateEnabled(mAllowedGestures[1] == ALL || mAllowedGestures[1] == ROTATE);
         }
     }
 
